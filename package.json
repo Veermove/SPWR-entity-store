@@ -1,0 +1,80 @@
+{
+    "bugs": {
+        "url": "https://github.com/veermove/pwrspotted/issues"
+    },
+    "contributors": [
+        {
+            "name": "Mat.",
+            "email": "xcmats@protonmail.com",
+            "url": "https://twitter.com/xcmats/"
+        }
+    ],
+    "dependencies": {
+        "@xcmats/js-toolbox": "0.14.3",
+        "chalk": "4.1.2",
+        "express": "4.17.2",
+        "firebase": "^9.15.0",
+        "mem-box": "1.0.10"
+    },
+    "description": "A (very) small-scale transactional email service.",
+    "devDependencies": {
+        "@babel/cli": "7.16.7",
+        "@babel/core": "7.16.7",
+        "@babel/eslint-parser": "7.16.5",
+        "@babel/node": "7.16.7",
+        "@babel/preset-env": "7.16.7",
+        "@babel/preset-typescript": "7.16.7",
+        "@types/express": "4.17.13",
+        "@types/node": "17.0.8",
+        "@typescript-eslint/eslint-plugin": "5.9.0",
+        "@typescript-eslint/parser": "5.9.0",
+        "babel-loader": "8.2.3",
+        "cross-env": "7.0.3",
+        "eslint": "8.6.0",
+        "eslint-plugin-import": "2.25.4",
+        "eslint-webpack-plugin": "3.1.1",
+        "nodemon": "2.0.15",
+        "rifraf": "2.0.3",
+        "terser-webpack-plugin": "5.3.0",
+        "typescript": "4.5.4",
+        "webpack": "5.65.0",
+        "webpack-cli": "4.9.1",
+        "webpack-node-externals": "3.0.0"
+    },
+    "engines": {
+        "node": ">=14.0.0",
+        "npm": ">=7.0.0"
+    },
+    "files": [
+        "src"
+    ],
+    "homepage": "https://github.com/veermove/pwrspotted",
+    "keywords": [
+        "email",
+        "transactional"
+    ],
+    "license": "BSD-2-Clause",
+    "name": "@veermove/pwrspotted",
+    "private": true,
+    "publicPath": "/pwrspotted/",
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/veermove/pwrspotted.git"
+    },
+    "scripts": {
+        "build": "npm run test && cross-env BABEL_ENV=production webpack --config=webpack.config.js",
+        "build:continuous": "nodemon -e js,ts --watch ./src/ --exec \"npm run build\"",
+        "clean": "rimraf ./dist",
+        "clean:modules": "rimraf package-lock.json && rimraf node_modules",
+        "dev": "rimraf ./node_modules/.cache/@babel && nodemon -e js,ts --watch ./src/ ./src/index.ts --exec \"cross-env NODE_ENV=development BABEL_ENV=development babel-node --extensions \".js,.ts\" --ignore ./node_modules --inspect\"",
+        "lint": "echo \"Linting and typechecking...\" && eslint ./src/ --ext .js,.ts && npm run type-check",
+        "start": "node ./dist/pwrspotted.bundle.js",
+        "test": "npm run lint && echo \"Warning: no tests specified (yet)\"",
+        "type-check": "tsc --noEmit"
+    },
+    "sideEffects": false,
+    "version": "0.0.1"
+}
