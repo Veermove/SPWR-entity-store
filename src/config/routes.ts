@@ -16,6 +16,7 @@ import { hello } from "../actions/hello";
 import { createPostVerified } from "../actions/postCreate";
 import { voteInPoll } from "../actions/poll";
 import { getComments } from "../actions/comments";
+import { getPostsPagin } from "../actions/postAccess";
 
 
 
@@ -35,6 +36,7 @@ export default function configureRoutes (): void {
     app.post(`${apiV1}/post/create/verified`, createPostVerified);
 
     // get all posts
+    app.put(`${apiV1}/post/pagin`, getPostsPagin);
 
     // get all posts by user
 
