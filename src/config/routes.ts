@@ -15,8 +15,8 @@ import { apiV1 } from "./env";
 import { hello } from "../actions/hello";
 import { createPostVerified } from "../actions/postCreate";
 import { voteInPoll } from "../actions/poll";
-import { getComments } from "../actions/comments";
-import { getPostsPagin } from "../actions/postAccess";
+import { createComment, getComments, handleCommentLikeChange } from "../actions/comments";
+import { getPostsPagin, handlePostLikeChange } from "../actions/postAccess";
 
 
 
@@ -41,16 +41,19 @@ export default function configureRoutes (): void {
     // get all posts by user
 
     // like a post
+    app.post(`${apiV1}/post/like`, handlePostLikeChange);
 
     // vote in poll
     app.put(`${apiV1}/post/poll/vote`, voteInPoll);
 
     // create a comment
+    app.post(`${apiV1}/comments/create`, createComment);
 
     // like a comment
+    app.post(`${apiV1}/comments/like`, handleCommentLikeChange);
 
     // get all comments for posts
-    app.get(`${apiV1}/coments/:postId`, getComments);
+    app.put(`${apiV1}/comments`, getComments);
 
 
 }

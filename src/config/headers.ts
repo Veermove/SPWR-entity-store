@@ -44,7 +44,7 @@ export default function configureHeaders (): void {
                 "User-Agent",
                 "X-Requested-With",
             ].join(", "),
-            "Access-Control-Allow-Methods": "HEAD, GET, OPTIONS, POST",
+            "Access-Control-Allow-Methods": "HEAD, GET, OPTIONS, POST, PUT",
             "Access-Control-Expose-Headers": [
                 "Cache-Control",
                 "Content-Language",

@@ -1,14 +1,3 @@
-/**
- * 'Hello-world' action.
- *
- * @module pwrspotted-actions
- * @license BSD-2-Clause
- * @copyright Mat. 2020
- */
-
-
-
-
 import type { RequestHandler } from "express";
 import {
     name as applicationName,
