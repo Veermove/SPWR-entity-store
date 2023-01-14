@@ -1,25 +1,38 @@
 import { RequestHandler } from "express";
-import { collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, query, startAfter, updateDoc, where } from "firebase/firestore";
 import { useMemory } from "..";
 import { Post } from "../lib/Post";
 
 export const getPostsPagin: RequestHandler = async (req, res, next) => {
 
     const { db } = useMemory();
-    const { lastPost } = req.body;
-
-    const postQuery = lastPost
-        ? query(collection(db, "posts"), orderBy("likes"), startAfter(lastPost), limit(25))
-        : query(collection(db, "posts"), orderBy("likes"), limit(25));
+    const
+        lastPostId: string  = req.body.lastPostId,
+        queryTags: string[] = req.body.queryTags;
 
     try {
+
+
+        const clauses = [];
+        if (queryTags) {
+            clauses.push(where("tags", "array-contains-any", queryTags));
+        }
+        if (lastPostId) {
+            clauses.push(startAfter(await getDoc(doc(db, "posts", lastPostId))));
+        }
+
+        clauses.push(where("isHidden", "==", false));
+
+        const postQuery =
+            query(collection(db, "posts"), ...clauses, limit(25));
+
         const result = await getDocs(postQuery);
         const posts = result.docs.map((doc) => doc.data() as Post);
 
         res.status(200).send({ posts });
         return next();
     } catch (e) {
-        res.status(400).send({ err: e});
+        res.status(400).send({ err: e });
         return next();
     }
 };

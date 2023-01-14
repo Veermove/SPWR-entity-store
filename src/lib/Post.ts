@@ -13,6 +13,7 @@ export interface Post {
     }[],
     tags: string[],
     likes: number,
+    isHidden: boolean,
 }
 
 export interface CommentsAggregate {

@@ -44,3 +44,7 @@ export function splitArray<Type> (
     }, [[] as Type[], [] as Type[]]);
 }
 
+export function setIntersection (setA: Set<string>, setB: Set<string>): Set<string>
+{
+    return new Set([...setA].filter(element => setB.has(element)));
+}

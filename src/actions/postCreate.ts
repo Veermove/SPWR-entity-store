@@ -3,18 +3,22 @@ import type { Post } from "../lib/Post";
 import { Timestamp, doc, setDoc } from "firebase/firestore";
 import { useMemory } from "..";
 import { v4 as uuidv4} from "uuid";
+import { isMessageSpam } from "../lib/Spam";
 
 export const createPostVerified: RequestHandler = async (req, res, next) => {
     const { author, content, isPoll, pollOptions, tags } = req.body;
     const { db } = useMemory();
 
-    if (author === null
-        || content === null
+    if (
+        content === null
         || isPoll === null
+        || content === ""
     ) {
         res.status(400).send({err: "author, content or isPoll is missing"});
         return next();
     }
+
+    const shouldMessageBeHidden = isMessageSpam(content, tags, pollOptions) || !author ;
 
     const
         post: Post = {
@@ -26,6 +30,7 @@ export const createPostVerified: RequestHandler = async (req, res, next) => {
             pollOptions: pollOptions,
             tags: tags,
             likes: 0,
+            isHidden: shouldMessageBeHidden,
         },
         postRef = doc(db, "posts", post.id);
 

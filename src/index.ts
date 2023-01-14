@@ -35,6 +35,7 @@ import configureRoutes from "./config/routes";
 import { port } from "./config/server.json";
 import { version } from "../package.json";
 import configureFirebase from "./config/firebase";
+import { configureSpamFilter } from "./config/spamFiltering";
 
 
 
@@ -95,10 +96,18 @@ run(async () => {
     // catch-all route configuration
     configureCatchAll();
 
+
     // logger (and error handling) configuration
     configureLogging();
 
+
+    // configure firebase connection
     configureFirebase();
+
+
+    // configure spam naive bayes spam filter
+    await configureSpamFilter();
+
 
     // listen and respond to requests
     server.listen(
