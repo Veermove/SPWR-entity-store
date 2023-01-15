@@ -17,6 +17,7 @@ import { createPostVerified } from "../actions/postCreate";
 import { voteInPoll } from "../actions/poll";
 import { createComment, getComments, handleCommentLikeChange } from "../actions/comments";
 import { getPostsPagin, handlePostLikeChange } from "../actions/postAccess";
+import { getNextPostToModerate, moderatePostDecide } from "../actions/moderate";
 
 
 
@@ -31,12 +32,17 @@ export default function configureRoutes (): void {
     // "hello world" route
     app.get(`${apiV1}/`, hello);
 
-
     // create post
     app.post(`${apiV1}/post/create/verified`, createPostVerified);
 
     // get all posts
     app.put(`${apiV1}/post/pagin`, getPostsPagin);
+
+    // get next post to moderate
+    app.post(`${apiV1}/post/moderate/next`, getNextPostToModerate);
+
+    // decide if post is viable for viewing
+    app.post(`${apiV1}/post/moderate/:postId/decide`, moderatePostDecide);
 
     // get all posts by user
 
